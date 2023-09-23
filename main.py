@@ -45,5 +45,5 @@ def add_exchange_rates(currency: str):
 
 
 @app.delete("/exchange-rates/delete/{id}")
-def add_exchange_rates(pk: int):
+def delete_exchange_rates(pk: int):
     return ExchangeRatesManager.remove(session=session, pk=pk)
