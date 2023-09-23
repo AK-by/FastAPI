@@ -1,32 +1,49 @@
+import datetime
 from fastapi import FastAPI
-from pydantic import BaseModel
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from ExchangeRates.managers.ExchangeRatesManager import ExchangeRatesManager
 
 app = FastAPI()
+engine = create_engine("sqlite:///ExchangeRates/models/dz13.db", echo=True)
+sessions = sessionmaker(bind=engine)
+session = sessions()
 
 
 @app.get("/")
-def read():
-    # Для запуска в вебе
-    return "uvicorn main:app --reload"
+def index():
+    # Для теста, будем возвращать текущее время
+    return datetime.datetime.now()
 
 
-@app.get("/firstname/{firstname}")
-def read_name(firstname: str, lastname: str = ""):
-    # Для запуска в вебе
-    return f"Hello {firstname} {lastname}"
+@app.get("/currencies")
+def index():
+    # Список доступных валют
+    answer = "ISO 4217: "
+    answer += "036 AUD Australian dollar, "
+    answer += "978 EUR Euro, "
+    answer += "643 RUB Russian ruble, "
+    answer += "840 USD United States dollar"
+    return answer
 
 
-class User(BaseModel):
-    name: str
-    age: int
-    is_admin: bool
+@app.get("/exchange-rates")
+def exchange_rates():
+    # Отображение всех курсов
+    return ExchangeRatesManager.list(session=session)
 
 
-@app.put("/user/{user_id}")
-def user(user: User):
-    return {"name": user.name, "age": user.age, "admin": user.is_admin}
+@app.get("/exchange-rates/{currency_abbr}")
+def exchange_rate(currency_abbr: str):
+    # Отображение курсов по одной валюте
+    return ExchangeRatesManager.get(session=session, currency_abbr=currency_abbr)
 
 
-@app.get("/user/{user_id}")
-def user(user_id: int):
-    return user_id
+@app.post("/exchange-rates/add/{currency}")
+def add_exchange_rates(currency: str):
+    return ExchangeRatesManager.add(session=session, currency=currency)
+
+
+@app.delete("/exchange-rates/delete/{id}")
+def add_exchange_rates(pk: int):
+    return ExchangeRatesManager.remove(session=session, pk=pk)
