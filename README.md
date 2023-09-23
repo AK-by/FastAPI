@@ -5,20 +5,19 @@
 * cd tms-python-py43/
 * 
 * обновить ветку origin
-* git pull origin main
+* git pull origin
 * 
-* Создаем новую ветку для домашнего задания в remote
-* git checkout -b ak-15
+* Создаем новую ветку 
+* git checkout -b name_of_branch
 * 
 * Вернутся в ветку в remote
-* git checkout main
-* git checkout ak-11
-* git checkout hw-13
-* 
+* git checkout name_of_branch
 * 
 * Публикация в remote origin
 * git add .
-* git commit -m "New hw5"
-* git push origin ak-15
+* git commit
+* git push
 * 
-* 
+* Проверить существование WSL
+* wsl -l -v
+*
