@@ -1,4 +1,3 @@
-# FastAPI
 * Скопировать проект как origin
 git clone https://github.com/IAnanevich/tms-python-py43.git
 
