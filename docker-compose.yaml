@@ -1,0 +1,30 @@
+version: "3.7"
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    networks:
+      - main
+    depends_on:
+      - db
+  db:
+    image: postgres:12-alpine
+    ports:
+      - "5432:5432"
+    networks:
+      - main
+#    volumes:
+#      - ./data/postgres:/var/lib/postgresql/data/
+
+networks:
+  main:
+volumes:
+  db:
+
+# docker-compose up -d --build
+# docker-compose down
